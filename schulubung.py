@@ -1,9 +1,10 @@
 import os
+from random import choice
 from bs4 import BeautifulSoup
-import random
+from unidecode import unidecode
 
 #init
-fonts = ["veranda","arial","Algerian"]
+fonts = ["Krystof1","Krystof2","Krystof3"]
 
 
 #convert pdf to html
@@ -41,18 +42,19 @@ for filee in os.listdir("data\\converted"):
                             while i < len(line):
                                 if (line[i:i + 1] == " "):
                                     res += line[i:i + 1]
+                                elif (unidecode(line[i:i + 1]) == unidecode("")):
+                                    res += " "
                                 elif (line[i:i + 5] == "<span" or line[i:i + 6] == "</span"):
                                     while line[i:i + 1] != ">":
                                         res += line[i:i + 1]
                                         i += 1
                                     res += ">"
                                 else:
-                                    word = ["<font face='{0}'>".format(random.choice(fonts)),"</font>"]
+                                    word = ["<font face='{0}'>".format(choice(fonts)),"</font>"]
                                     res += word[0] + line[i:i + 1] + word[1]
                                 i += 1
                             divs.string = res
                     this_page = not this_page
-                print("\n\ngay\n\n")
 
                 
 
