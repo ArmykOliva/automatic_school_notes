@@ -6,7 +6,9 @@ import pdfkit
 
 #init
 fonts = ["Krystof1","Krystof2","Krystof3"]
-
+#fonts = ["Hauz1","Hauz2","Hauz3","Hauz4"]
+sesit = ["sesit1.jpg","sesit2.jpg","sesit3.jpg"]
+sesitID = 0
 
 #convert pdf to html
 for root,dirs,files in os.walk("data"):
@@ -34,12 +36,15 @@ for filee in os.listdir("data\\converted"):
                 this_page = False
                 for page in data.children:
                     if (page.name == "div"): #jenom ten spravnej text
-                        sesit_img = whole_file.new_tag("img",src="sesit.jpg",style="position: absolute;")
+                        sesitID += 1
+                        if (sesitID >= len(sesit)): sesitID = 0
+                        print(sesitID)
+                        sesit_img = whole_file.new_tag("img",src=sesit[sesitID],style="position: absolute;")
                         page.insert(0,sesit_img)
                         #for loop mezi divs
                         for divs in page.children:
                             if (divs.name == "div"):
-                                divs["style"] = "margin:0px 0px 0px {0}px;".format(randrange(0,20))
+                                divs["style"] = "margin:0px 0px {1}px {0}px;transform:rotate({2}deg);".format(randrange(0,20),randrange(-2,2),randrange(0,2))
                                 #loop v divu a randomize fontu
                                 line = divs.decode_contents()
                                 res = ""
@@ -55,7 +60,7 @@ for filee in os.listdir("data\\converted"):
                                             i += 1
                                         res += ">"
                                     else:
-                                        word = ["<span style='margin-top:10px;font-family:{0};color:#000F55;position:relative;top:{1}px;'>".format(choice(fonts),randrange(-4,4)),"</span>"]
+                                        word = ["<span style='margin-top:10px;font-family:{0};color:#000F55;position:relative;top:{1}px;font-size:40%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(-2,2),randrange(-2,2)),"</span>"]
                                         res += word[0] + line[i:i + 1] + word[1]
                                     i += 1
                                 divs.string = res
