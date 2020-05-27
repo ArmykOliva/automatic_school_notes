@@ -1,7 +1,8 @@
 import os
-from random import choice
+from random import choice,randrange
 from bs4 import BeautifulSoup
 from unidecode import unidecode
+import pdfkit
 
 #init
 fonts = ["Krystof1","Krystof2","Krystof3"]
@@ -31,30 +32,35 @@ for filee in os.listdir("data\\converted"):
             if (data.name == "div"):
                 #najit jenom page
                 this_page = False
-                for page in data.find("div"):
-                    if (this_page): #jenom ten spravnej text
+                for page in data.children:
+                    if (page.name == "div"): #jenom ten spravnej text
+                        sesit_img = whole_file.new_tag("img",src="sesit.jpg",style="position: absolute;")
+                        page.insert(0,sesit_img)
                         #for loop mezi divs
                         for divs in page.children:
-                            #loop v divu a randomize fontu
-                            line = divs.decode_contents()
-                            res = ""
-                            i = 0
-                            while i < len(line):
-                                if (line[i:i + 1] == " "):
-                                    res += line[i:i + 1]
-                                elif (unidecode(line[i:i + 1]) == unidecode("")):
-                                    res += " "
-                                elif (line[i:i + 5] == "<span" or line[i:i + 6] == "</span"):
-                                    while line[i:i + 1] != ">":
+                            if (divs.name == "div"):
+                                divs["style"] = "margin:0px 0px 0px {0}px;".format(randrange(0,20))
+                                #loop v divu a randomize fontu
+                                line = divs.decode_contents()
+                                res = ""
+                                i = 0
+                                while i < len(line):
+                                    if (line[i:i + 1] == " "):
                                         res += line[i:i + 1]
-                                        i += 1
-                                    res += ">"
-                                else:
-                                    word = ["<font face='{0}'>".format(choice(fonts)),"</font>"]
-                                    res += word[0] + line[i:i + 1] + word[1]
-                                i += 1
-                            divs.string = res
+                                    elif (unidecode(line[i:i + 1]) == unidecode("")):
+                                        res += " "
+                                    elif (line[i:i + 5] == "<span" or line[i:i + 6] == "</span"):
+                                        while line[i:i + 1] != ">":
+                                            res += line[i:i + 1]
+                                            i += 1
+                                        res += ">"
+                                    else:
+                                        word = ["<span style='margin-top:10px;font-family:{0};color:#000F55;position:relative;top:{1}px;'>".format(choice(fonts),randrange(-4,4)),"</span>"]
+                                        res += word[0] + line[i:i + 1] + word[1]
+                                    i += 1
+                                divs.string = res
                     this_page = not this_page
+        
 
                 
 
