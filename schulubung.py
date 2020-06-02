@@ -6,9 +6,12 @@ import pdfkit
 
 #init
 fonts = ["Krystof1","Krystof2","Krystof3"]
-#fonts = ["Hauz1","Hauz2","Hauz3","Hauz4"]
+#fonts = ["Anci1","Anci2","Anci3"]
+#fonts = ["Hauz1","Hauz2","Hauz3"]
 sesit = ["sesit1.jpg","sesit2.jpg","sesit3.jpg"]
 sesitID = 0
+skakavost = [-2,2]
+rotace = [-2,2]
 
 #convert pdf to html
 for root,dirs,files in os.walk("data"):
@@ -38,8 +41,7 @@ for filee in os.listdir("data\\converted"):
                     if (page.name == "div"): #jenom ten spravnej text
                         sesitID += 1
                         if (sesitID >= len(sesit)): sesitID = 0
-                        print(sesitID)
-                        sesit_img = whole_file.new_tag("img",src=sesit[sesitID],style="position: absolute;")
+                        sesit_img = whole_file.new_tag("img",src=sesit[sesitID],style="position: absolute;max-width:90%;margin-left:40px;")
                         page.insert(0,sesit_img)
                         #for loop mezi divs
                         for divs in page.children:
@@ -60,7 +62,7 @@ for filee in os.listdir("data\\converted"):
                                             i += 1
                                         res += ">"
                                     else:
-                                        word = ["<span style='margin-top:10px;font-family:{0};color:#000F55;position:relative;top:{1}px;font-size:40%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(-2,2),randrange(-2,2)),"</span>"]
+                                        word = ["<span style='margin-top:10px;font-family:{0};color:#000F55;position:relative;top:{1}px;font-size:40%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(skakavost[0],skakavost[1]),randrange(rotace[0],rotace[1])),"</span>"]
                                         res += word[0] + line[i:i + 1] + word[1]
                                     i += 1
                                 divs.string = res
