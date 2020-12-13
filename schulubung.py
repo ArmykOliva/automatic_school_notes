@@ -74,11 +74,11 @@ def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
 
             #align on line paper
             soup.append(soup.new_tag('style', type='text/css'))
-            soup.style.append('body{margin-left:3cm; line-height:6.83mm; color:red;} p{margin:0px;}') #1.25inch nahore offset v chrome
+            soup.style.append('body{margin-left:3cm; line-height:7.83mm; color:red;} p{margin:0px;}') #1.25inch nahore offset v chrome/// line-height:7.83mm; (ctvereckovy) /// line-height:6.83mm; linkovany
 
             #style pismenka
             for p in soup.find_all("p"):
-                p["style"] = "margin:0px 0px {1}px {0}px;transform:rotate({2}deg);".format(randrange(width_shift[0],width_shift[1]),0,randrange(rotace[0],rotace[1]))
+                p["style"] = "margin:0px 0px {1}cm {0}px;transform:rotate({2}deg);".format(randrange(width_shift[0],width_shift[1]),0,randrange(rotace[0],rotace[1]))
                 #randomize pismenka
                 line = p.decode_contents()
                 res = ""
@@ -116,9 +116,9 @@ if __name__ == "__main__":
     #download_pandoc()
 
     #init
-    #fonts = ["Krystof1","Krystof2","Krystof3"]
+    fonts = ["Krystof1","Krystof2","Krystof3"]
     #fonts = ["Anci2"]
-    fonts = ["Hauz1","Hauz2"]
+    #fonts = ["Hauz1","Hauz2"]
     sesit = [""]
     sesitID = 0
     skakavost = [0,1]
