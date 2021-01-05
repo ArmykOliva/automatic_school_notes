@@ -1,2 +1,2 @@
-# pdf-to-handwriting
-aplikace ktera vezme matiku hu a udela ji do heftu
+# fake zapisky
+This python script takes a list of font names and converts a pdf or a docx file to the fonts of your choice with randomized characters,angles etc..
