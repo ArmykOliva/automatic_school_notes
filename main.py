@@ -70,13 +70,15 @@ def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
             result = result.replace("</strong>","")
             result = result.replace("<li>","<p>")
             result = result.replace("</li>","</p>")
+            result = result.replace("</li>","</p>")
+            result = result.replace("`","&nbsp;")
             soup = BeautifulSoup(result,"html.parser")
 
             #align on line paper
             soup.append(soup.new_tag('style', type='text/css'))
-            soup.style.append('body{margin-left:3cm; line-height:7.83mm; color:red;} p{margin:0px;}') #1.25inch nahore offset v chrome/// line-height:7.83mm; (ctvereckovy) /// line-height:6.83mm; linkovany
+            soup.style.append('body{margin-left:3cm; line-height:7.83mm; color:red;} p{margin:0px;} td:nth-child(even) {padding-right:80px;} td:nth-child(odd) {padding-right:30px;} th {font-weight: normal;} th:nth-child(even) {padding-right:55px;} th:nth-child(odd) {padding-right:30px;}') #1.25inch nahore offset v chrome/// line-height:7.83mm; (ctvereckovy) /// line-height:6.83mm; linkovany
 
-            #style pismenka
+            #style pismenka v paragraf
             for p in soup.find_all("p"):
                 p["style"] = "margin:0px 0px {1}cm {0}px;transform:rotate({2}deg);".format(randrange(width_shift[0],width_shift[1]),0,randrange(rotace[0],rotace[1]))
                 #randomize pismenka
@@ -98,6 +100,52 @@ def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
                         res += word[0] + line[i:i + 1] + word[1]
                     i += 1
                 p.string = res
+            
+            #style pismenka v table
+            for t in soup.find_all("table"):
+                #th
+                for th in t.find_all("th"):
+                    #randomize pismenka
+                    line = th.decode_contents()
+                    res = ""
+                    i = 0
+                    while i < len(line):
+                        if (line[i:i + 1] == " "):
+                            res += line[i:i + 1]
+                        elif (unidecode(line[i:i + 1]) == unidecode("")):
+                            res += " "
+                        elif (line[i:i + 5] == "<span" or line[i:i + 6] == "</span"):
+                            while line[i:i + 1] != ">":
+                                res += line[i:i + 1]
+                                i += 1
+                            res += ">"
+                        else:
+                            word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(skakavost[0],skakavost[1]),randrange(rotace_pismen[0],rotace_pismen[1])),"</span>"]
+                            res += word[0] + line[i:i + 1] + word[1]
+                        i += 1
+                    th.string = res
+                
+                #tr
+                for td in t.find_all("td"):
+                    #randomize pismenka
+                    line = td.decode_contents()
+                    res = ""
+                    i = 0
+                    while i < len(line):
+                        if (line[i:i + 1] == " "):
+                            res += line[i:i + 1]
+                        elif (unidecode(line[i:i + 1]) == unidecode("")):
+                            res += " "
+                        elif (line[i:i + 5] == "<span" or line[i:i + 6] == "</span"):
+                            while line[i:i + 1] != ">":
+                                res += line[i:i + 1]
+                                i += 1
+                            res += ">"
+                        else:
+                            word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(skakavost[0],skakavost[1]),randrange(rotace_pismen[0],rotace_pismen[1])),"</span>"]
+                            res += word[0] + line[i:i + 1] + word[1]
+                        i += 1
+                    td.string = res
 
             
             
