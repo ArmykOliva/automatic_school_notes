@@ -56,7 +56,7 @@ def pdf_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
             f.write(str(whole_file))
             print("done")
 
-def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
+def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace,table_header=True):
     #change all the html files
     for filee in os.listdir("data\\converted\\docx"):
         filee_converted = "data\\converted\\docx\\" + filee
@@ -72,6 +72,14 @@ def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
             result = result.replace("</li>","</p>")
             result = result.replace("</li>","</p>")
             result = result.replace("`","&nbsp;")
+            if (not table_header):
+                result = result.replace("th","td")
+                result = result.replace("<thead>","")
+                result = result.replace("</thead>","")
+                result = result.replace("<tbody>","")
+                result = result.replace("</tbody>","")
+                result = result.replace("header","even")
+
             soup = BeautifulSoup(result,"html.parser")
 
             #align on line paper
@@ -127,6 +135,8 @@ def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
                 
                 #tr
                 for td in t.find_all("td"):
+                    #random left offset
+                    td["style"] = "padding-left:%spx;" % randrange(0,8)
                     #randomize pismenka
                     line = td.decode_contents()
                     res = ""
@@ -195,4 +205,4 @@ if __name__ == "__main__":
     
     #convert do naseho pisma
     pdf_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace)
-    docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace)
+    docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace,table_header=False)
