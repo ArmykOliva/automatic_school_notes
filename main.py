@@ -4,6 +4,16 @@ from bs4 import BeautifulSoup
 from unidecode import unidecode
 from pypandoc import convert_file
 
+#init
+fonts = ["Krystof1","Krystof2","Krystof3"]
+sesit = [""]
+sesitID = 0
+skakavost = [0,1]
+rotace_pismen = [-2,2]
+width_shift = [0,10]
+height_shift = [0,1]
+rotace = [0,1]
+
 def pdf_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
     #change all the html files
     for filee in os.listdir("data\\converted\\pdf"):
@@ -172,18 +182,6 @@ if __name__ == "__main__":
     #pypandoc
     #from pypandoc.pandoc_download import download_pandoc
     #download_pandoc()
-
-    #init
-    fonts = ["Krystof1","Krystof2","Krystof3"]
-    #fonts = ["Anci2"]
-    #fonts = ["Hauz1","Hauz2"]
-    sesit = [""]
-    sesitID = 0
-    skakavost = [0,1]
-    rotace_pismen = [-2,2]
-    width_shift = [0,10]
-    height_shift = [0,1]
-    rotace = [0,1]
 
 
     #converter
