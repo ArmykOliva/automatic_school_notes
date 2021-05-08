@@ -3,18 +3,23 @@ from random import choice,randrange
 from bs4 import BeautifulSoup
 from unidecode import unidecode
 from pypandoc import convert_file
+from pypandoc.pandoc_download import download_pandoc
+try:
+    download_pandoc()
+except Exception as e:
+    print("Downloading pandoc failed",e)
 
 #init
 fonts = ["Krystof1","Krystof2","Krystof3"]
-sesit = [""]
-sesitID = 0
-skakavost = [0,1]
-rotace_pismen = [-2,2]
+notebook = [""]
+notebookID = 0
+jumpiness = [0,1]
+word_rotation = [-2,2]
 width_shift = [0,10]
 height_shift = [0,1]
 rotace = [0,1]
 
-def pdf_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
+def pdf_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace):
     #change all the html files
     for filee in os.listdir("data\\converted\\pdf"):
         filee_converted = "data\\converted\\pdf\\" + filee
@@ -52,7 +57,7 @@ def pdf_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
                                                     i += 1
                                                 res += ">"
                                             else:
-                                                word = ["<span style='margin-top:10px;font-family:{0};color:#000F55;position:relative;top:{1}px;font-size:40%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(skakavost[0],skakavost[1]),randrange(rotace_pismen[0],rotace_pismen[1])),"</span>"]
+                                                word = ["<span style='margin-top:10px;font-family:{0};color:#000F55;position:relative;top:{1}px;font-size:40%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
                                                 res += word[0] + line[i:i + 1] + word[1]
                                             i += 1
                                         divs.string = res
@@ -66,7 +71,7 @@ def pdf_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace):
             f.write(str(whole_file))
             print("done")
 
-def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace,table_header=True):
+def docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,table_header=True):
     #change all the html files
     for filee in os.listdir("data\\converted\\docx"):
         filee_converted = "data\\converted\\docx\\" + filee
@@ -114,7 +119,7 @@ def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace,t
                             i += 1
                         res += ">"
                     else:
-                        word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(skakavost[0],skakavost[1]),randrange(rotace_pismen[0],rotace_pismen[1])),"</span>"]
+                        word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
                         res += word[0] + line[i:i + 1] + word[1]
                     i += 1
                 p.string = res
@@ -138,7 +143,7 @@ def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace,t
                                 i += 1
                             res += ">"
                         else:
-                            word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(skakavost[0],skakavost[1]),randrange(rotace_pismen[0],rotace_pismen[1])),"</span>"]
+                            word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
                             res += word[0] + line[i:i + 1] + word[1]
                         i += 1
                     th.string = res
@@ -162,7 +167,7 @@ def docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace,t
                                 i += 1
                             res += ">"
                         else:
-                            word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(skakavost[0],skakavost[1]),randrange(rotace_pismen[0],rotace_pismen[1])),"</span>"]
+                            word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
                             res += word[0] + line[i:i + 1] + word[1]
                         i += 1
                     td.string = res
@@ -202,5 +207,5 @@ if __name__ == "__main__":
                     convert_file("data\\%s" % filee,"html",outputfile=filee_converted)
     
     #convert do naseho pisma
-    pdf_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace)
-    docx_to_html(fonts,skakavost,rotace_pismen,width_shift,height_shift,rotace,table_header=False)
+    pdf_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace)
+    docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,table_header=False)

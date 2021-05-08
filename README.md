@@ -6,5 +6,7 @@
 1. Make your font. I use https://www.calligraphr.com/ .
 2. Put your .pdf or .docx in the data folder
 3. In main.py, change Krystof1,Krystof2... to your fonts name
-4. run the script
-5. Go to data/done and your file will be there ready to print!
+4. Open cmd in directory and type:
+6. pip install -r requirements.txt
+7. python main.py
+8. Go to data/done and your file will be there ready to print!
