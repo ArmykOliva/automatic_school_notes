@@ -1,2 +1,3 @@
-# fake zapisky
-This python script takes a list of font names and converts a pdf or a docx file to the fonts of your choice with randomized characters,angles etc..
+# Automatic School Notes
+## This program will convert .pdf or .docx files to authentic looking hand written notes with your handwriting!
+[!photo](https://imgur.com/a/6xPOhlO)
