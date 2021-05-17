@@ -4,10 +4,10 @@ from bs4 import BeautifulSoup
 from unidecode import unidecode
 from pypandoc import convert_file
 from pypandoc.pandoc_download import download_pandoc
-try:
-    download_pandoc()
-except Exception as e:
-    print("Downloading pandoc failed",e)
+#try:
+#    download_pandoc()
+#except Exception as e:
+#    print("Downloading pandoc failed",e)
 
 #init
 fonts = ["Krystof1","Krystof2","Krystof3"]
