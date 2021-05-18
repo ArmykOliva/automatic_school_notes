@@ -1,3 +1,4 @@
+from io import StringIO
 import os,pdfkit
 from random import choice,randrange
 from bs4 import BeautifulSoup
@@ -18,6 +19,8 @@ word_rotation = [-2,2]
 width_shift = [0,10]
 height_shift = [0,1]
 rotace = [0,1]
+margin_left = 2 #how far from right in cm
+
 
 def pdf_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace):
     #change all the html files
@@ -99,7 +102,7 @@ def docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,t
 
             #align on line paper
             soup.append(soup.new_tag('style', type='text/css'))
-            soup.style.append('body{margin-left:3cm; line-height:7.83mm; color:red;} p{margin:0px;} td:nth-child(even) {padding-right:80px;} td:nth-child(odd) {padding-right:30px;} th {font-weight: normal;} th:nth-child(even) {padding-right:55px;} th:nth-child(odd) {padding-right:30px;}') #1.25inch nahore offset v chrome/// line-height:7.83mm; (ctvereckovy) /// line-height:6.83mm; linkovany
+            soup.style.append('body{margin-left:' + str(margin_left) +'cm; line-height:7.83mm; color:red;} p{margin:0px;} td:nth-child(even) {padding-right:80px;} td:nth-child(odd) {padding-right:30px;} th {font-weight: normal;} th:nth-child(even) {padding-right:55px;} th:nth-child(odd) {padding-right:30px;}') #1.25inch nahore offset v chrome/// line-height:7.83mm; (ctvereckovy) /// line-height:6.83mm; linkovany
 
             #style pismenka v paragraf
             for p in soup.find_all("p"):
@@ -113,7 +116,7 @@ def docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,t
                         res += line[i:i + 1]
                     elif (unidecode(line[i:i + 1]) == unidecode("")):
                         res += " "
-                    elif (line[i:i + 5] == "<span" or line[i:i + 6] == "</span"):
+                    elif (line[i:i + 5] == "<span" or line[i:i + 6] == "</span") or (line[i:i + 2] == "<p" or line[i:i + 3] == "</p"):
                         while line[i:i + 1] != ">":
                             res += line[i:i + 1]
                             i += 1
