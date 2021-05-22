@@ -19,7 +19,7 @@ word_rotation = [-2,2]
 width_shift = [0,10]
 height_shift = [0,1]
 rotace = [0,1]
-margin_left = 2 #how far from right in cm
+margin_left = 0 #how far from right in cm
 
 
 def pdf_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace):
@@ -102,7 +102,7 @@ def docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,t
 
             #align on line paper
             soup.append(soup.new_tag('style', type='text/css'))
-            soup.style.append('body{margin-left:' + str(margin_left) +'cm; line-height:7.83mm; color:red;} p{margin:0px;} td:nth-child(even) {padding-right:80px;} td:nth-child(odd) {padding-right:30px;} th {font-weight: normal;} th:nth-child(even) {padding-right:55px;} th:nth-child(odd) {padding-right:30px;}') #1.25inch nahore offset v chrome/// line-height:7.83mm; (ctvereckovy) /// line-height:6.83mm; linkovany
+            soup.style.append('body{margin-left:' + str(margin_left) +'cm; line-height:7mm; color:#000F55; word-spacing: 0.4cm;} p{margin:0px;} td:nth-child(even) {padding-right:80px;} td:nth-child(odd) {padding-right:30px;} th {font-weight: normal;} td {padding-top: 0; padding-bottom: 0;} th:nth-child(even) {padding-right:55px;} th:nth-child(odd) {padding-right:30px;}') #1inch nahore offset v chrome/// line-height:7.83mm; (ctvereckovy) /// line-height:6.83mm; linkovany
 
             #style pismenka v paragraf
             for p in soup.find_all("p"):
@@ -111,7 +111,7 @@ def docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,t
                 line = p.decode_contents()
                 res = ""
                 i = 0
-                while i < len(line):
+                while i < len(line):    
                     if (line[i:i + 1] == " "):
                         res += line[i:i + 1]
                     elif (unidecode(line[i:i + 1]) == unidecode("")):
@@ -122,7 +122,7 @@ def docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,t
                             i += 1
                         res += ">"
                     else:
-                        word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
+                        word = ["<span style='font-family:{0};top:{1}px;font-size:170%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
                         res += word[0] + line[i:i + 1] + word[1]
                     i += 1
                 p.string = res
@@ -146,7 +146,7 @@ def docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,t
                                 i += 1
                             res += ">"
                         else:
-                            word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
+                            word = ["<span style='font-family:{0};top:{1}px;font-size:170%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
                             res += word[0] + line[i:i + 1] + word[1]
                         i += 1
                     th.string = res
@@ -170,7 +170,7 @@ def docx_to_html(fonts,jumpiness,word_rotation,width_shift,height_shift,rotace,t
                                 i += 1
                             res += ">"
                         else:
-                            word = ["<span style='font-family:{0};color:#000F55;top:{1}px;font-size:200%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
+                            word = ["<span style='font-family:{0};top:{1}px;font-size:170%;transform:skewY({2}deg)'>".format(choice(fonts),randrange(jumpiness[0],jumpiness[1]),randrange(word_rotation[0],word_rotation[1])),"</span>"]
                             res += word[0] + line[i:i + 1] + word[1]
                         i += 1
                     td.string = res
